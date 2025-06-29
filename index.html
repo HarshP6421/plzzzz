@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plzzz 💝</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-family: "Arial", sans-serif;
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .main {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .text h1 {
+        font-size: clamp(1.5rem, 8vw, 4rem);
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        animation: pulse 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.05);
+        }
+      }
+
+      .image {
+        max-width: 90%;
+        width: auto;
+        height: auto;
+        max-height: 60vh;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        object-fit: contain;
+      }
+
+      .image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .click-instruction {
+        margin-top: 20px;
+        font-size: clamp(0.8rem, 4vw, 1.2rem);
+        opacity: 0.8;
+        animation: blink 2s ease-in-out infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 0.8;
+        }
+        25%,
+        75% {
+          opacity: 0.4;
+        }
+      }
+
+      .countdown {
+        font-size: clamp(2rem, 15vw, 8rem);
+        font-weight: bold;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+      }
+
+      .final-message {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          #ff9a9e 0%,
+          #fecfef 50%,
+          #fecfef 100%
+        );
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        z-index: 1000;
+      }
+
+      .final-message h2 {
+        font-size: clamp(1.2rem, 6vw, 2.5rem);
+        color: #333;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        line-height: 1.4;
+        max-width: 90%;
+      }
+
+      .final-message .emoji {
+        font-size: clamp(2rem, 10vw, 4rem);
+        margin-top: 20px;
+        animation: bounce 1s ease-in-out infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .fade-out {
+        opacity: 0;
+        transition: opacity 1s ease-out;
+      }
+
+      .fade-in {
+        opacity: 1;
+        transition: opacity 1s ease-in;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .main {
+          padding: 15px;
+        }
+
+        .image {
+          max-height: 50vh;
+        }
+
+        .final-message {
+          padding: 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .main {
+          padding: 10px;
+        }
+
+        .image {
+          max-height: 45vh;
+        }
+      }
+
+      /* Loading animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .main > * {
+        animation: fadeInUp 0.8s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main" id="mainContent">
+      <div class="text">
+        <h1 class="margin">🔊 Sound On Please</h1>
+      </div>
+      <div>
+        <img
+          class="image"
+          src="images/click.png"
+          alt="Click-Me"
+          id="clickImage"
+        />
+      </div>
+      <div class="click-instruction">👆 Tap the image above</div>
+    </div>
+
+    <div class="final-message" id="finalMessage">
+      <h2>
+        Behen tu hamesha muskuraya kar<br />behene hamesha muskurati achi lagti
+        hai plzzzzzz
+      </h2>
+      <div class="emoji">😃🥹💕✨</div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      let audio1, audio2;
+      let hasInteracted = false;
+
+      // Initialize audio after user interaction
+      function initializeAudio() {
+        if (!hasInteracted) {
+          try {
+            audio1 = new Audio("images/heartbeat.mp3");
+            audio2 = new Audio("images/main.mp3");
+
+            // Set up event listener for when main audio ends
+            audio2.addEventListener("ended", function () {
+              showFinalMessage();
+            });
+
+            hasInteracted = true;
+          } catch (error) {
+            console.log("Audio initialization failed:", error);
+          }
+        }
+      }
+
+      function showFinalMessage() {
+        $("#mainContent").addClass("fade-out");
+        setTimeout(function () {
+          $("#mainContent").addClass("hidden");
+          $("#finalMessage").css("display", "flex").addClass("fade-in");
+        }, 1000);
+      }
+
+      $(".image").click(function () {
+        initializeAudio();
+
+        // Hide click instruction
+        $(".click-instruction").fadeOut();
+
+        $("h1").html("<p>This is for you</p><p>👇</p>");
+        $(".image").css("width", "100%");
+        $(".image").hide();
+        $(".image").attr("src", "images/heart.gif");
+        $(".image").show();
+
+        // Play heartbeat audio
+        if (audio1) {
+          audio1.play().catch((e) => console.log("Audio1 play failed:", e));
+        }
+
+        $("h1").css("font-size", "clamp(2rem, 10vw, 4rem)");
+
+        // Countdown
+        setTimeout(function () {
+          $("h1").html("<span class='countdown'>3</span>");
+        }, 4000);
+
+        setTimeout(function () {
+          $("h1").html("<span class='countdown'>2</span>");
+        }, 5000);
+
+        setTimeout(function () {
+          $("h1").html("<span class='countdown'>1</span>");
+        }, 6000);
+
+        setTimeout(function () {
+          $("h1").css("font-size", "clamp(1.5rem, 8vw, 3rem)");
+          $("h1").html("<p>🫂❤️</p>");
+          $(".image").hide();
+          $(".image").attr("src", "images/image_main.jpg");
+          $(".image").css("width", "100%");
+          $(".image").show();
+
+          // Play main audio
+          if (audio2) {
+            audio2.play().catch((e) => console.log("Audio2 play failed:", e));
+          }
+        }, 7000);
+      });
+
+      // Add touch event for better mobile experience
+      $(".image").on("touchstart", function (e) {
+        e.preventDefault();
+        $(this).trigger("click");
+      });
+
+      // Prevent context menu on long press (mobile)
+      $(".image").on("contextmenu", function (e) {
+        e.preventDefault();
+      });
+
+      // Add some interactive feedback
+      $(".image").on("mousedown touchstart", function () {
+        $(this).css("transform", "scale(0.95)");
+      });
+
+      $(".image").on("mouseup touchend mouseleave", function () {
+        $(this).css("transform", "scale(1)");
+      });
+    </script>
+  </body>
+</html>
